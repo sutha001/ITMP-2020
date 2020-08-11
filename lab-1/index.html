@@ -8,29 +8,31 @@
 </head>
 <body class="paper">
 	<div id="app">
-		<input type="number">
-		<div class="space"></div>
-		<h4>{{number}} x 1 = x</h4>
-		<h4>{{number}} x 2 = x</h4>
-		<h4>{{number}} x 3 = x</h4>
-		<h4>{{number}} x 4 = x</h4>
-		<h4>{{number}} x 5 = x</h4>
-		<h4>{{number}} x 6 = x</h4>
-		<h4>{{number}} x 7 = x</h4>
-		<h4>{{number}} x 8 = x</h4>
-		<h4>{{number}} x 9 = x</h4>
-		<h4>{{number}} x 10 = x</h4>
-		<h4>{{number}} x 11 = x</h4>
-		<h4>{{number}} x 12 = x</h4>
+		<input type="number" id="mynumber">
+		<input type="button" value="Click" onclick="myFunction()">
+		<div id="space"></div>
 	</div>
 
 	<script>
-		let app = new Vue({
-			el: '#app',
-			data: {
-				number: 2
+		function myFunction()
+		{
+
+			var num = document.getElementById("mynumber").value;
+
+			if(num == "undefined" || num =="")
+			{
+				alert("Please enter a number in the box.")
+				document.getElementById("space").innerHTML = "";
+				return;
 			}
-		})
+			var give = "";
+			for(var i = 1; i <= 12; i++)
+			{
+				give += "<pre>" + num + " X " + i + " = " + (num*i) + "</pre>";
+			}
+			document.getElementById("space").innerHTML = give;
+		}
+		
 	</script>
 </body>
 </html>
