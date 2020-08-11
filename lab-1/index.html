@@ -6,27 +6,44 @@
 	<link rel=stylesheet href="lab.css">
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
-<body class="paper">
-	<div id="app">
-		<input type="number" v-model="n">
+<body class="paper" id="bc">
+	<center>
+		<div id="app">
+		<input type="number" v-model="n" id = "hov">
+		<input type="number" v-model="row" id = "hov">
 		<div class="space"></div>
 		<h3>สูตรคูณแม่ {{n}}</h3>
-		<h4 
-		v-for = "i in 12">{{n}} x {{i}} = {{x(i)}}</h4>
+		<h4 class = "row"
+		v-for = "i in r">{{n}} x {{i}} = {{x(i)}}</h4>
+		<h5>ผลรวมทั้งหมด {{sums(row)}}</h5>
 	</div>
+	</center>
+	
 
 	<script>
 		let app = new Vue({
 			el: '#app',
 			data: {
-				n: 2
+				n: 2,
+				row: 12
 			},
 			methods: {
 				x: function(row){
 					return this.n*row
+				},
+				sums:function(row){
+					g = 0
+					for (var i  = 1; i <= row; i++)
+					{
+						g += (this.n * i)
+					}
+					return g;
 				}
 			},
 			computed: {
+				r: function(){
+					return parseInt(this.row)
+				},
 				x2: function(){
 					return this.n*2
 				},

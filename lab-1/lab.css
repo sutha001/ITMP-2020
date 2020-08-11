@@ -1,0 +1,43 @@
+.row{
+    box-shadow: 0px 10px 20px #0001;
+    border-radius: 4px;
+    margin-bottom: 1em;
+}
+.paper{
+    max-width: 500px;
+    margin: auto;
+}
+#bc{
+
+    background: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0% , rgb(121, 189, 238)),color-stop( 100% , rgba(255,255,255,1.00))); 
+    background: -webkit-linear-gradient(270deg,rgba(121, 189, 238) 0%,rgba(255,255,255,1.00) 100%);
+    background: linear-gradient(180deg,rgba(121, 189, 238) 0%,rgba(255,255,255,1.00) 100%); 
+    -webkit-background-size: cover;
+    background-size: cover;
+    width: auto;
+    height: auto;
+
+}
+
+h5{
+    font-size: 69px;
+}
+
+input[type = number]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid rgb(95, 92, 92);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+#hov:hover{
+    border: 5px solid rgb(0, 0, 0);
+    transition: 0.3s;
+}
+
+h4:hover{
+    font-size: 22px;
+    transition: 0.3s;
+}
