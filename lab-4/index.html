@@ -8,29 +8,33 @@
 </head>
 <body>
 	<div id="canvas">
+		<h1>แยกให้ได้ถ้านายแน่จริง!</h1>
 		<section id="canvas_header">
-			<div>
-				เหลือเวลา 10 วินาที
+			<div id="text1">
+				เหลือเวลา {{time}} วินาที
 			</div>
 		</section>
 		<section id="canvas_main">
 			<main>
-				<a-dot></a-dot>
-				<a-dot></a-dot>
-				<a-dot></a-dot>
-				<a-dot></a-dot>
-				<a-dot></a-dot>
-				<a-dot style="--l:80%"></a-dot>
-				<a-dot data-pick="true"></a-dot>
-				<a-dot></a-dot>
-				<a-dot></a-dot>
+				<a-dot v-if="time !=0" v-for="i in row*row"
+					:style="{
+						'--row':row,
+						'--h':h,
+						'--l':l + '%',
+						'--picklight':picklight + '%'
+					}"
+					:data-pick="i == pick"
+					@click="correct(i,pick)"
+				></a-dot>
 			</main>
 		</section>
 		<section id="canvas_footer">
-			<div>
-				0 คะแนน
+			<div id="text2">
+				{{score}} คะแนน
 			</div>
 		</section>
+		<h1>{{timeou()}}</h1>
+		<h2 @click="correct(i,pick)">{{re()}}</h2>
 	</div>
 
 	<script>
@@ -45,27 +49,74 @@
 		let app = new Vue({
 			el:'#canvas',
 			data:{
-				row:2, //จำนวนแถวที่จะมีในรอบนี้
-				h:330, // hue ในรอบนี้
-				time:10, //เวลาเริ่มต้น
+				row:3, //จำนวนแถวที่จะมีในรอบนี้
+				h:200, // hue ในรอบนี้
+				time:3, //เวลาเริ่มต้น
 				score:0, //คะแนนเริ่มต้น
 				pick:1, //หมายเลขวงกลมที่จะสีแตกต่างจากก้อนอื่นๆ
-				l:30,//ความสว่างของสีทั่วไปในรอบนี้
+				l:50,//ความสว่างของสีทั่วไปในรอบนี้
+				picklight:20,
+				timeout:"Timeout!!!",
+				restat:"Restart",
 			},
 			methods: {
-
+				correct: function(i, pick){
+					if(this.time == 0){
+						this.time = 3
+						timers()
+					}
+					else{
+						if(i == pick){//ถ้าถูกให้เพิ่มสุ่มสีใหม่ และเพิ่มคะแนน เพิ่มเวลา
+							this.h = rand(0,360)
+							this.score++;
+							this.time++
+							if((this.score % 5) == 0){//ถ้าคะแนนหาร 5 ลงตัว ให้เพิ่มจำนวนrow
+								this.row += 1
+							}
+							if((this.score % 10) == 0){//ถ้าคะแนนหาร 10 ลงตัว ให้เพิ่ม picklight ทำให้เล่นยากขึ้นและถ้าใกล้50ให้มันทำการ สุ่มตัวเลขตั้งแต่ 40-49
+								this.picklight += 5
+								if(this.picklight >= 50){
+									this.picklight = rand(40,49)
+								}
+							}
+							if(this.row > 10){//จำกัดแค่ 10 row
+								this.row = 10
+							}
+							this.pick = rand(1,(this.row*this.row))//สุ่มตำแหน่ง
+						}
+					}
+				},
+				timeou: function(){
+					if(this.time == 0){
+						return this.timeout
+					}
+				},
+				re: function(){
+					if(this.time == 0){
+						return this.restat
+					}
+				}
 			}
 		})
 		//ทำให้แคนวาสมี --picklight ตามที่กำหนดไว้ข้างบนนี้
 		document.querySelector('#canvas').style.setProperty('--picklight',picklight);
-		
+		function timers(){
+			let counter = setInterval(()=>{
+			if (app.time>0) {
+				app.time--
+			}else{
+				clearInterval(counter)
+			}
+			},1000);
+		}
 		let counter = setInterval(()=>{
 			if (app.time>0) {
 				app.time--
 			}else{
 				clearInterval(counter)
 			}
-		},1000);
+			},1000);
+		
 	</script>
 </body>
 </html>

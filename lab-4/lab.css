@@ -1,23 +1,45 @@
 body{
 	min-height: 100vh;
 	display: flex;
-	background: black;
+	background: hsl(213, 62%, 81%);
 }
 #canvas{
 	margin: auto;
 	width: 400px;
 	height: 500px;
-	background-color: grey;
+	background-color: rgb(175, 202, 236);
+}
+#text1{
+	color:black;
+}
+#text2{
+	color:black;
+}
+h1{
+	font-size: 36px;
+	text-align: center;
+}
+h2{
+	font-size: 36px;
+	text-align: center;
+	color:black;
+	background-color: hsl(123, 100%, 50%);
+}
+h2:active{
+	font-size: 36px;
+	text-align: center;
+	color:white;
+	background-color: hsl(0, 0%, 0%);
 }
 #canvas_header,
 #canvas_footer{
-	background-color: black;
+	background-color: rgb(175, 202, 236);
 	height: 50px;
 	color: white;
 	font-weight: bold;
 }
 #canvas_main{
-	background-color: black;
+	background-color: rgb(175, 202, 236);
 	height: 400px;
 }
 #canvas_header,
@@ -51,4 +73,22 @@ a-dot{
 
 a-dot[data-pick="true"]{
 	background-color: hsl(var(--h),100%,var(--picklight));
+}
+
+a-dot[data-pick="true"]:active{
+	background-color: rgb(0, 255, 0);
+}
+
+a-dot:active{
+	background-color: rgb(255, 0, 0);
+}
+
+a-dot:hover{
+	--row:3;
+	--h:330;
+	--l:50%;
+	--size: calc((100% / var(--row)) - 2%);
+	transition: width 1s ,height 1s;
+	width: calc(var(--size) - 2%);
+	height: calc(var(--size) - 2%);
 }
