@@ -82,13 +82,3 @@ a-dot[data-pick="true"]:active{
 a-dot:active{
 	background-color: rgb(255, 0, 0);
 }
-
-a-dot:hover{
-	--row:3;
-	--h:330;
-	--l:50%;
-	--size: calc((100% / var(--row)) - 2%);
-	transition: width 1s ,height 1s;
-	width: calc(var(--size) - 2%);
-	height: calc(var(--size) - 2%);
-}
