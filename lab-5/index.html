@@ -10,7 +10,7 @@
 	<div id="canvas">
 		<section id="canvas_header">
 			<div>
-				-- แสดงคะแนน
+				แยกได้ {{score}}
 			</div>
 		</section>
 		<section id="canvas_main" 
@@ -19,9 +19,11 @@
 				<div class="box _path" 
 				v-for="i in 14" 
 				:data-pst="i"></div>
-				<div class="box _toggle" data-pst="10" data-isrightarrow="1"></div>
+				<div class="box _toggle" data-pst="10" :data-isrightarrow="isRightArrow"></div>
 
-				<div class="box _fruit"></div>
+				<div class="box _fruit" v-for="f in fruits"
+				:data-pst="f.pst" :data-type="f.type" :data-run="f.run" :data-step="f.step"></div>
+
 
 				<div class="box _origin"></div>
 				<div class="box _12" data-pst="12"></div>
@@ -30,7 +32,7 @@
 			</main>
 		</section>
 		<section id="canvas_footer">
-			<div v-if="play" class="btn" id="toggle">
+			<div v-if="play" class="btn" id="toggle" @click="ck">
 				Toggle
 			</div>
 			<div v-if="!play" class="btn" id="endgame">
@@ -45,23 +47,92 @@
 			return Math.floor(Math.random()*100%shift)+start
 		}
 		
-		let fruitCount = 5
+		let nextFruitId = 3
 		let isRightArrow = 1
 		let speed = 1000
 		let app = new Vue({
 			el:'#canvas',
 			data:{
+				isRightArrow: isRightArrow,
+				speed: speed,
 				play:true,
-				time:0,
+				turn:0,
+				countid: 3,
 				score:0,
 				fruits:[
-					{id:1,type:13,pst:6,run:true,step:1},
-					{id:2,type:11,pst:3,run:true,step:1},
-					{id:3,type:11,pst:2,run:true,step:1},
-					{id:4,type:13,pst:1,run:true,step:1},
+					{id:0,type:0,pst:0,run:false,step:1},
+					{id:1,type:12,pst:3,run:true,step:1},
+					{id:2,type:16,pst:6,run:true,step:1},
+					
 				]
-			}
+			},
+			methods:{
+				ck: function(){
+						if (this.isRightArrow == 1) {
+							this.isRightArrow = 0;
+						}
+						else{
+							this.isRightArrow = 1;
+						}
+						console.log(this.isRightArrow);
+					}
+			},
+			computed:{},
+			watch:{
+				turn: function (x){
+					let count = this.fruits.length
+					this.countid++;
+					for(let f in this.fruits){
+						if (this.fruits[f].pst == 10) {
+							if (this.isRightArrow == 0) {
+								this.fruits[f].step = 3
+							}
+							else{
+								this.fruits[f].step = 1
+							}
+						}
+						
+						let run = this.fruits[f].run
+						if (run){
+							this.fruits[f].pst = this.fruits[f].pst+1
+						}
+
+						if(this.countid == 30){
+							this.play = false;
+							this.fruits[f].run = false; 
+						}
+
+						if(this.fruits[f].type == 12 && this.fruits[f].pst == 12){
+							this.score++;
+							this.fruits[f].run = false;
+							this.fruits[f].type = 0;
+							
+						}
+						else if (this.fruits[f].type == 16 && this.fruits[f].pst == 16){
+							this.score++;
+							this.fruits[f].run = false;
+							this.fruits[f].type = 0;
+						}
+					}
+					let sp = rand(1,10)
+					if(this.play != false){
+						if(sp % 3 == 0){
+							if(sp % 2 == 0){
+								this.fruits.push({id:this.countid,type:12,pst:1,run:true,step:1},)
+							}
+							else if(sp % 2 > 0){
+								this.fruits.push({id:this.countid,type:16,pst:1,run:true,step:1},)
+							}
+						}
+					}
+					
+				}
+			},
 		})
+
+		let playing = setInterval(function(){
+			app.turn++
+		},speed)
 	</script>
 </body>
 </html>
